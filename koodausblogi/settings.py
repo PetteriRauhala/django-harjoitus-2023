@@ -12,6 +12,18 @@ from pathlib import Path
 
 import dj_database_url
 
+SENTRY_DSN = os.environ.get("SENTRY_DSN")
+
+if SENTRY_DSN:
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        traces_sample_rate=1.0,
+        send_default_pii=True
+    )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,7 +41,6 @@ MEDIA_URL = "/media/"
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', default='secret')
-
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = (os.environ.get('DEBUG', '').lower() not in {'0', 'no', 'false'})
@@ -89,7 +100,6 @@ sqlite_db = 'sqlite:///db.sqlite3'
 DATABASES = {
     'default': dj_database_url.config(default=sqlite_db, conn_max_age=600),
 }
-    
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -130,11 +140,17 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Käytä DropBoxia tiedostojen tallentamiseen jos DROPBOX_APP_KEY on asetettu
-DROPBOX_APP_KEY = os.environ.get ('DROPBOX_APP_KEY')
+DROPBOX_APP_KEY = os.environ.get('DROPBOX_APP_KEY')
 if DROPBOX_APP_KEY:
+    # Loput DropBox-muuttujat haetaan os.environ:sta hakasuluilla [],
+    # jotta niiden puuttuminen aiheuttaisi virheen hyvin aikaisessa
+    # vaiheessa.  Jos käytettäisiin .get():iä, niin virhettä ei tulisi
+    # vielä tässä, mutta vasta silloin, kun DropBoxia yritettäisiin
+    # käyttää.
     DROPBOX_APP_SECRET = os.environ['DROPBOX_APP_SECRET']
     DROPBOX_OAUTH2_TOKEN = os.environ['DROPBOX_OAUTH2_TOKEN']
     DROPBOX_OAUTH2_REFRESH_TOKEN = os.environ['DROPBOX_OAUTH2_REFRESH_TOKEN']
+    # Aseta DropBox Djangon oletus-storageksi
     DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
 
 # Default primary key field type
