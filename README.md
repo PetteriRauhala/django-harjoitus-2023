@@ -4,9 +4,9 @@ Djangon-harjoittelua-2023
 # Asennus
 
 1. Tee python-virtuaaliympäristö
-    ¨¨¨python
+    "
     python3 -m venv venv
-    ¨¨¨
+    "
 
 2. Aktivoi virtuaaliympäristö
     - Voit tehdä tämän VSCodessa, joko vastaamalla Yes kun VSCode kysyy
@@ -22,31 +22,31 @@ Djangon-harjoittelua-2023
     - pip install -r requirements.txt
 
 4. Aja migraatiot:
-    ¨¨¨python
+    "
     python manage.py migrate
-    ¨¨¨
+    "
     -Tämä luo SQLite-tietokannan 'db.
     sqlite3'-tiedostoon
 
 5. Luo pääkäyttäjä:
-    ¨¨¨python
+    "
     python manage.py createsuperuser
-    ¨¨¨
+    "
     - Käytä käyttäjätunnusta ja salasanaa, jotka muistat helposti.
       Esim. "admin" ja "admin"
 
 ## Kehitysympäristön käynnistäminen
 
 Aja Djangon runserver komento:
-¨¨¨python
+"
 python manage.py runserver
-¨¨¨
+"
 
 ## Uusien migraatiotiedostojen tekeminen
 
 Kun teet muutoksia models.py-tiedostoon, niin model-muutokset pitää
 saada myös tietokantaan. Tähän käytetään migraatiotiedostoja.
 Tehtyjen muutosten pohjalta voi luoda uuden migraatiotiedoston komennolla
-¨¨¨python
+"
 python manage.py makemigrations
-¨¨¨
+"
