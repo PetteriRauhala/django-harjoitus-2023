@@ -4,9 +4,9 @@ Djangon-harjoittelua-2023
 # Asennus
 
 1. Tee python-virtuaaliympäristö
-    "
+    ''
     python3 -m venv venv
-    "
+   ''
 
 2. Aktivoi virtuaaliympäristö
     - Voit tehdä tämän VSCodessa, joko vastaamalla Yes kun VSCode kysyy
